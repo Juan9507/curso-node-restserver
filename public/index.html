@@ -27,42 +27,38 @@
       data-logo_alignment="left"
     ></div>
 
-    <button id="google_signout">
-      Signout
-    </button>
+    <button id="google_signout">Signout</button>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <script>
       function handleCredentialResponse(response) {
-  
-        const body = { id_token: response.credential}
-        fetch('http://localhost:8080/api/auth/google', {
-          method: 'POST',
+        const body = { id_token: response.credential };
+        fetch("http://localhost:8080/api/auth/google", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(body)
+          body: JSON.stringify(body),
         })
-          .then( resp => resp.json() )
-          .then( resp => {
-            console.log(resp)
-            localStorage.setItem( 'email', resp.usuario.correo )
+          .then((resp) => resp.json())
+          .then((resp) => {
+            console.log(resp);
+            localStorage.setItem("email", resp.usuario.correo);
           })
-          .catch( console.warn )
+          .catch(console.warn);
       }
 
-      const button = document.querySelector('#google_signout')
+      const button = document.querySelector("#google_signout");
       button.onclick = () => {
-        console.log( google.accounts.id )
-        google.accounts.id.disableAutoSelect()
+        console.log(google.accounts.id);
+        google.accounts.id.disableAutoSelect();
 
-        google.accounts.id.revoke( localStorage.getItem( 'email' ), done => {
-          localStorage.clear()
-          location.reload()
-        }) 
-      }
-
+        google.accounts.id.revoke(localStorage.getItem("email"), (done) => {
+          localStorage.clear();
+          location.reload();
+        });
+      };
     </script>
   </body>
 </html>
